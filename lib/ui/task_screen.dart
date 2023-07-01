@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 void main() {
   runApp(
     ChangeNotifierProvider(
@@ -15,13 +12,15 @@ void main() {
 class Task {
   final String name;
   bool isDone;
+  DateTime? deadline;
 
-  Task({this.name = "Task", this.isDone = false});
+  Task({this.name = "Task", this.isDone = false, this.deadline});
 
   void toggleDone() {
     isDone = !isDone;
   }
 }
+
 
 class TaskData extends ChangeNotifier {
   List<Task> tasks = [
@@ -69,6 +68,14 @@ class TasksScreen extends StatelessWidget {
                     taskData.updateTask(task);
                   },
                 ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Dungeon(),
+                    ),
+                  );
+                },
                 onLongPress: () {
                   taskData.deleteTask(task);
                 },
