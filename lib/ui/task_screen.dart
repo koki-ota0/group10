@@ -1,5 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+void main() {
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => TaskData(),
+      child: MaterialApp(
+        home: TasksScreen(),
+      ),
+    ),
+  );
+}
+
 class Task {
   final String name;
   bool isDone;
@@ -34,6 +46,7 @@ class TaskData extends ChangeNotifier {
     notifyListeners();
   }
 }
+
 class TasksScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -53,8 +66,7 @@ class TasksScreen extends StatelessWidget {
                 trailing: Checkbox(
                   value: task.isDone,
                   onChanged: (bool? newValue) {
-                    task.toggleDone();
-                    taskData.notifyListeners();
+                    taskData.updateTask(task);
                   },
                 ),
                 onLongPress: () {
@@ -74,8 +86,8 @@ class TasksScreen extends StatelessWidget {
               content: TextField(
                 autofocus: true,
                 onSubmitted: (newTaskTitle) {
-                  TaskData taskData = Provider.of<TaskData>(context, listen: false);
-                  taskData.addTask(newTaskTitle);
+                  Provider.of<TaskData>(context, listen: false)
+                      .addTask(newTaskTitle);
                   Navigator.pop(context);
                 },
               ),

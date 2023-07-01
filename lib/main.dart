@@ -1,9 +1,8 @@
 import 'package:dunjion_app/ui/Dungeon.dart';
-import 'package:dunjion_app/ui/task_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-// void main() => runApp(Dungeon());
+// void main() => runApp(const TasksApp());
 
 void main() {
   runApp(
@@ -18,21 +17,26 @@ void main() {
 
 class Task {
   final String name;
-  final DateTime deadline;
   bool isDone;
+  DateTime? deadline;
 
-  Task({required this.name, required this.deadline, this.isDone = false});
+  Task({this.name = "Task", this.isDone = false, this.deadline});
 
   void toggleDone() {
     isDone = !isDone;
   }
 }
 
-class TaskData extends ChangeNotifier {
-  List<Task> tasks = [];
 
-  void addTask(String newTaskName, DateTime newTaskDeadline) {
-    final task = Task(name: newTaskName, deadline: newTaskDeadline);
+class TaskData extends ChangeNotifier {
+  List<Task> tasks = [
+    Task(name: 'Task 1'),
+    Task(name: 'Task 2'),
+    Task(name: 'Task 3'),
+  ];
+
+  void addTask(String newTaskTitle) {
+    final task = Task(name: newTaskTitle);
     tasks.add(task);
     notifyListeners();
   }
@@ -41,8 +45,12 @@ class TaskData extends ChangeNotifier {
     tasks.remove(task);
     notifyListeners();
   }
-}
 
+  void updateTask(Task task) {
+    task.toggleDone();
+    notifyListeners();
+  }
+}
 class TasksScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -59,13 +67,20 @@ class TasksScreen extends StatelessWidget {
               final task = taskData.tasks[index];
               return ListTile(
                 title: Text(task.name),
-                subtitle: Text('Deadline: ${task.deadline.toString()}'),
                 trailing: Checkbox(
                   value: task.isDone,
                   onChanged: (bool? newValue) {
                     taskData.updateTask(task);
                   },
                 ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TaskDetailScreen(task: task),
+                    ),
+                  );
+                },
                 onLongPress: () {
                   taskData.deleteTask(task);
                 },
@@ -78,66 +93,43 @@ class TasksScreen extends StatelessWidget {
         onPressed: () {
           showDialog<String>(
             context: context,
-            builder: (BuildContext context) {
-              String newTaskName = '';
-              DateTime newTaskDeadline = DateTime.now();
-
-              return AlertDialog(
-                title: const Text('Add a task'),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextField(
-                      autofocus: true,
-                      onChanged: (value) {
-                        newTaskName = value;
-                      },
-                      decoration: InputDecoration(labelText: 'Task Name'),
-                    ),
-                    SizedBox(height: 16),
-                    InkWell(
-                      onTap: () async {
-                        final selectedDate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime.now(),
-                          lastDate: DateTime(DateTime
-                              .now()
-                              .year + 5),
-                        );
-                        if (selectedDate != null) {
-                          newTaskDeadline = selectedDate;
-                        }
-                      },
-                      child: Row(
-                        children: [
-                          Icon(Icons.calendar_today),
-                          SizedBox(width: 8),
-                          Text(
-                            'Deadline: ${newTaskDeadline.toString()}',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      Provider.of<TaskData>(context, listen: false)
-                          .addTask(newTaskName, newTaskDeadline);
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Add'),
-                  ),
-                ],
-              );
-            },
+            builder: (BuildContext context) => AlertDialog(
+              title: const Text('Add a task'),
+              content: TextField(
+                autofocus: true,
+                onSubmitted: (newTaskTitle) {
+                  Provider.of<TaskData>(context, listen: false)
+                      .addTask(newTaskTitle);
+                  Navigator.pop(context);
+                },
+              ),
+            ),
           );
         },
         child: Icon(Icons.add),
         backgroundColor: Colors.lightBlueAccent,
+      ),
+    );
+  }
+}
+
+class TaskDetailScreen extends StatelessWidget {
+  final Task task;
+
+  TaskDetailScreen({required this.task});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Task Details'),
+      ),
+      body: Column(
+        children: [
+          Text(task.name),
+          Text('Deadline: ${task.deadline ?? "No deadline"}'),
+          // 他のタスクの詳細情報を表示するウィジェットを追加
+        ],
       ),
     );
   }
