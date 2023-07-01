@@ -28,7 +28,6 @@ class Task {
   }
 }
 
-
 class TaskData extends ChangeNotifier {
   List<Task> tasks = [
     Task(name: 'Task 1'),
@@ -116,7 +115,7 @@ class TasksScreen extends StatelessWidget {
 }
 
 void main() {
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
     home: MyApp(),
   ));
 }
