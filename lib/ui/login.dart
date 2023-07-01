@@ -66,14 +66,19 @@ class MyApp extends StatelessWidget {
                         'https://bene-hack-api.azurewebsites.net/api/User'), // ここに適切なAPIのURLを設定してください
                     headers: {"Content-Type": "application/json"},
                   );
-                  print('レスポンス：${response.body}');
+                  final List<dynamic> json_response = jsonDecode(response.body);
+                  print('レスポンス：${json_response}');
+                  print('レスポンスの名前：${json_response[0]['username']}');
+                  print('レスポンスのパス：${json_response[0]['password']}');
 
-                  if (response.statusCode == 200) {
+                  if (json_response[0]['username'] == name &&
+                      json_response[0]['password'].toString() == password) {
                     _showPopup(context);
                   } else {
                     // Handle error here
                     //ログを出力する
                     print('error');
+                    _showFailPopup(context);
                   }
                 },
                 child: const Text(
@@ -128,6 +133,28 @@ class MyApp extends StatelessWidget {
       },
     );
   }
+}
+
+void _showFailPopup(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text(
+          'ログイン失敗',
+          textAlign: TextAlign.center,
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('閉じる'),
+          ),
+        ],
+      );
+    },
+  );
 }
 
 class NextPage extends StatelessWidget {
