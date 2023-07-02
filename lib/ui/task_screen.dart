@@ -126,7 +126,7 @@ class _TaskScreenState extends State<TaskScreen> {
           itemCount: quests.length,
           itemBuilder: (BuildContext context, int index) => ListTile(
             title: Text(quests[index]['name']),
-            subtitle: Text(DateFormat('MMMd').format(DateTime.parse(quests[index]['deadline']))),
+            subtitle: Text(DateFormat('y年M月d日').format(DateTime.parse(quests[index]['deadline']))),
             onTap: () {
               Navigator.push(
                 context,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -14,6 +15,8 @@ class TaskDetail extends StatefulWidget {
 
 class _TaskDetailState extends State<TaskDetail> {
   dynamic task;
+  double maxHP = 100.0;
+  double currentHP = 100.0;
 
   Future<dynamic> getQuest() async {
     print("id: ${widget.id}");
@@ -72,6 +75,31 @@ class _TaskDetailState extends State<TaskDetail> {
                     ),
                   ),
                 ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(0.5), // 背景色を設定
+                    borderRadius: BorderRadius.circular(8.0), // ボーダーの角丸を設定
+                  ),
+                  child: LinearProgressIndicator(
+                    value: currentHP / maxHP,
+                    backgroundColor: Colors.transparent, // 透明にすることで背景色が表示される
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Container(
+                    padding: EdgeInsets.all(8.0), // テキストの周囲に余白を追加
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.8), // 背景色を設定
+                      borderRadius: BorderRadius.circular(8.0), // ボーダーの角丸を設定
+                    ),
+                    child: Text(
+                      'HP: ${currentHP.toInt()}/${maxHP.toInt()}',
+                      style: TextStyle(fontSize: 16.0),
+                    ),
+                  ),
+                ),
                 SizedBox(height: 20),
                 Text(
                   '${task['name']}',
@@ -82,7 +110,7 @@ class _TaskDetailState extends State<TaskDetail> {
                 ),
                 Text(
                   textAlign: TextAlign.center,
-                  'しめきり: ${task['deadline']}',
+                  '締め切り: ${DateFormat('y年M月d日').format(DateTime.parse(task['deadline']))}',
                   style: const TextStyle(
                     fontSize: 20,
 
@@ -90,13 +118,18 @@ class _TaskDetailState extends State<TaskDetail> {
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 4, // ボタンの立体感を調整する値
+                    minimumSize: Size(150, 50), // ボタンの最小サイズを指定
+                  ),
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => Dungeon()),
                     );
                   },
-                  child: Text('挑戦'),
+                  child: Text('挑戦',
+                    style: TextStyle(fontSize: 20),),
                 ),
 
               ],
