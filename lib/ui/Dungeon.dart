@@ -1,3 +1,4 @@
+import 'package:dunjion_app/ui/task_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -55,11 +56,24 @@ class _DungeonPageState extends State<DungeonPage> {
     );
   }
 
+  void navigateBackToTaskDetail() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => TaskScreen()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Dungeon Progress'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: Column(
         children: [

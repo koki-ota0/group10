@@ -5,11 +5,11 @@ import 'dart:convert';
 import 'package:dunjion_app/ui/Dungeon.dart';
 
 class TaskDetail extends StatefulWidget {
-  TaskDetail({super.key, required this.id});
-  int id;
+  TaskDetail({Key? key, required this.id}) : super(key: key);
+  final int id;
+
   @override
-  // ignore: library_private_types_in_public_api
-  State<TaskDetail> createState() => _TaskDetailState();
+  _TaskDetailState createState() => _TaskDetailState();
 }
 
 class _TaskDetailState extends State<TaskDetail> {
@@ -41,28 +41,58 @@ class _TaskDetailState extends State<TaskDetail> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Task Detail'),
-        //backgroundColor: Colors.lightBlueAccent,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              '残りの日数: ${task['remainingDays']}',
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
       ),
       body: FutureBuilder(
         future: getQuest(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasData) {
-            return Container(
-                child: Column(children: [
-              Text(
-                '${task['name']}',
-                style: const TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'images/enemy.png',
+                  width: 200,
+                  height: 200,
                 ),
-              ),
-              Text(
-                'しめきり: ${task['deadline']}',
-                style: const TextStyle(
-                  fontSize: 20,
+                SizedBox(height: 20),
+                Text(
+                  '${task['name']}',
+                  style: const TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-            ]));
+                Text(
+                  'しめきり: ${task['deadline']}',
+                  style: const TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Dungeon()),
+                    );
+                  },
+                  child: Text('挑戦'),
+                ),
+              ],
+            );
           } else {
             return const Text('Loading...');
           }
