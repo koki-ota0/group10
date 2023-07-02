@@ -1,7 +1,10 @@
+import 'package:dunjion_app/ui/next_test_page.dart';
+import 'package:dunjion_app/ui/task_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:dunjion_app/ui/next_test_page.dart';
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
@@ -63,7 +66,7 @@ class MyApp extends StatelessWidget {
 
                   var response = await http.get(
                     Uri.parse(
-                        'https://bene-hack-api.azurewebsites.net/api/User'), // ここに適切なAPIのURLを設定してください
+                        'https://bene-hack-api.azurewebsites.net/user'), // ここに適切なAPIのURLを設定してください
                     headers: {"Content-Type": "application/json"},
                   );
                   final List<dynamic> json_response = jsonDecode(response.body);
@@ -123,7 +126,7 @@ class MyApp extends StatelessWidget {
                 Navigator.of(context).pop();
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => NextPage()),
+                  MaterialPageRoute(builder: (context) => const TaskScreen()),
                 );
               },
               child: const Text('閉じる'),
@@ -155,18 +158,4 @@ void _showFailPopup(BuildContext context) {
       );
     },
   );
-}
-
-class NextPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('次のページ'),
-      ),
-      body: Center(
-        child: const Text('次のページです'),
-      ),
-    );
-  }
 }

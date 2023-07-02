@@ -7,6 +7,7 @@ class Enemy {
 }
 
 class DungeonPage extends StatefulWidget {
+  const DungeonPage({Key? key}) : super(key: key);
   @override
   _DungeonPageState createState() => _DungeonPageState();
 }
@@ -24,6 +25,7 @@ class _DungeonPageState extends State<DungeonPage> {
       });
     }
   }
+
   Enemy enemy = Enemy(hp: 100);
   List<String> supporters = ['Supporter A', 'Supporter B', 'Supporter C'];
   String selectedSupporter = '';
@@ -38,14 +40,14 @@ class _DungeonPageState extends State<DungeonPage> {
             mainAxisSize: MainAxisSize.min,
             children: supporters
                 .map((supporter) => ListTile(
-              title: Text(supporter),
-              onTap: () {
-                setState(() {
-                  selectedSupporter = supporter;
-                });
-                Navigator.pop(context);
-              },
-            ))
+                      title: Text(supporter),
+                      onTap: () {
+                        setState(() {
+                          selectedSupporter = supporter;
+                        });
+                        Navigator.pop(context);
+                      },
+                    ))
                 .toList(),
           ),
         );
