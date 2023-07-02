@@ -114,7 +114,7 @@ class MyApp extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Image.asset(
-                'images/boss.jpg',
+                'images/sword.png',
                 height: 100,
                 width: 100,
               ),

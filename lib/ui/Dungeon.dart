@@ -118,6 +118,11 @@ class _DungeonPageState extends State<DungeonPage> with SingleTickerProviderStat
           ),
           actions: [
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: hasAttacked ? Colors.grey : null,
+                elevation: 4, // ボタンの立体感を調整する値
+                minimumSize: Size(150, 50), // ボタンの最小サイズを指定
+              ),
               onPressed: () {
                 Navigator.pop(context);
                 // メッセージの内容を表示
@@ -129,6 +134,11 @@ class _DungeonPageState extends State<DungeonPage> with SingleTickerProviderStat
                       content: Text('1ポイント獲得'),
                       actions: [
                         ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: hasAttacked ? Colors.grey : null,
+                            elevation: 4, // ボタンの立体感を調整する値
+                            minimumSize: Size(150, 50), // ボタンの最小サイズを指定
+                          ),
                           onPressed: () {
                             Navigator.pop(context);
                             // TODO: Send the message to the selected supporter
@@ -194,7 +204,6 @@ class _DungeonPageState extends State<DungeonPage> with SingleTickerProviderStat
       appBar: AppBar(
         title: Text('ダンジョン'),
         actions: [
-
           IconButton(
             icon: Icon(Icons.message),
             onPressed: checkMessages,
@@ -247,10 +256,10 @@ class _DungeonPageState extends State<DungeonPage> with SingleTickerProviderStat
                     },
                     child: Image.asset(
                       'images/enemy.png',
-                      width: 300.0 - (remainingDays * 30),
-                      height: 300.0 - (remainingDays * 30),
-                      // color: Colors.blueGrey.withOpacity(0.5 - (currentHP / maxHP / 2)),
-                      // colorBlendMode: BlendMode.srcATop,
+                      width: 300.0 - (remainingDays * 20),
+                      height: 300.0 - (remainingDays * 20),
+                      color: Colors.blueGrey.withOpacity(0.5 - (currentHP / maxHP / 2)),
+                      colorBlendMode: BlendMode.srcATop,
                     ),
                   ),
                 ),
@@ -284,18 +293,31 @@ class _DungeonPageState extends State<DungeonPage> with SingleTickerProviderStat
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                    onPressed: hasAttacked ? null : attackEnemy,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: hasAttacked ? Colors.grey : null,
+                      elevation: 4, // ボタンの立体感を調整する値
+                      minimumSize: Size(150, 50), // ボタンの最小サイズを指定
                     ),
-                    child: Text('提出'),
+                    onPressed: hasAttacked ? null : attackEnemy,
+                    child: Text(
+                        '提出',
+                        style: TextStyle(fontSize: 20),
+                    ),
                   ),
                   SizedBox(width: 16.0),
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: hasAttacked ? Colors.grey : null,
+                      elevation: 4, // ボタンの立体感を調整する値
+                      minimumSize: Size(150, 50), // ボタンの最小サイズを指定
+                    ),
                     onPressed: () {
                       openSupportPopup(context);
                     },
-                    child: Text('応援'),
+                    child: Text(
+                      '応援',
+                      style: TextStyle(fontSize: 20),
+                    ),
                   ),
                 ],
               ),
@@ -395,13 +417,17 @@ class VictoryScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 16.0),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 4, // ボタンの立体感を調整する値
+                    minimumSize: Size(150, 50), // ボタンの最小サイズを指定
+                  ),
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => TaskScreen()),
                     );
                   },
-                  child: Text('課題一覧に戻る'),
+                  child: Text('課題一覧に戻る',style: TextStyle(fontSize: 20),),
                 ),
                 SizedBox(height: 16.0),
               ],
