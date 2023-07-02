@@ -1,5 +1,7 @@
 import 'package:dunjion_app/ui/task_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Enemy {
   int hp;
@@ -15,22 +17,15 @@ class DungeonPage extends StatefulWidget {
 
 class _DungeonPageState extends State<DungeonPage> with SingleTickerProviderStateMixin {
   double maxHP = 100.0;
-  double currentHP = 10;
-  // Future<dynamic> getQuest() async {
-  //   print("id: ${widget.id}");
-  //   double currentHP = 'https://bene-hack-api.azurewebsites.net/quest/status/hp/0';
-  //   var raw_url = 'https://bene-hack-api.azurewebsites.net/quest/${widget.id}';
-  //   var url = Uri.parse(raw_url);
-  //   print(url);
-  //   var response = await http.get(url);
-  //   print(response.statusCode);
-  //   var result = jsonDecode(response.body);
-  //   print('result: ${result}');
-  //   setState(() {
-  //     task = result;
-  //   });
-  //   return result;
-  // }
+  double currentHP = 100.0;
+  Future getQuests() async {
+    var url = Uri.parse('https://bene-hack-api.azurewebsites.net/quest/status/hp/0');
+    var response = await http.get(url);
+    var result = jsonDecode(response.body);
+    setState(() {
+      currentHP = result;
+    });
+  }
 
   bool hasAttacked = false; // Track whether the player has attacked or not
   List<String> messages = []; // List to store received messages
@@ -55,7 +50,7 @@ class _DungeonPageState extends State<DungeonPage> with SingleTickerProviderStat
     if (!hasAttacked) {
       setState(() {
         currentHP -= 10.0;
-        hasAttacked = true; // Set the flag to true after the attack
+        //hasAttacked = true; // Set the flag to true after the attack
       });
       if (currentHP <= 0) {
         // 敵を倒したときの処理

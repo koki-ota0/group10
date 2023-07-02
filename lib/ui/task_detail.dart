@@ -62,10 +62,15 @@ class _TaskDetailState extends State<TaskDetail> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.asset(
-                  'images/enemy.png',
-                  width: 200,
-                  height: 200,
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: Image.asset(
+                      'images/enemy.png',
+                      width: 200,
+                      height: 200,
+                    ),
+                  ),
                 ),
                 SizedBox(height: 20),
                 Text(
@@ -76,9 +81,11 @@ class _TaskDetailState extends State<TaskDetail> {
                   ),
                 ),
                 Text(
+                  textAlign: TextAlign.center,
                   'しめきり: ${task['deadline']}',
                   style: const TextStyle(
                     fontSize: 20,
+
                   ),
                 ),
                 SizedBox(height: 20),
@@ -91,6 +98,7 @@ class _TaskDetailState extends State<TaskDetail> {
                   },
                   child: Text('挑戦'),
                 ),
+
               ],
             );
           } else {
