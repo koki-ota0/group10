@@ -68,7 +68,7 @@ class _DungeonPageState extends State<DungeonPage> with SingleTickerProviderStat
     }
   }
 
-  List<String> supporters = ['田中健太郎', '岡村穂香', '大槻翼', '野木知優', '林まなみ','藤原拓貴', '谷紘毅', '太田光紀'];
+  List<String> supporters = ['a', 'b', 'c'];
   String selectedSupporter = '';
 
   void openSupportPopup(BuildContext context) {
@@ -198,7 +198,7 @@ class _DungeonPageState extends State<DungeonPage> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-    int remainingDays = 1; // Placeholder value for remaining days
+    int remainingDays = 2; // Placeholder value for remaining days
 
     return Scaffold(
       appBar: AppBar(
@@ -255,7 +255,7 @@ class _DungeonPageState extends State<DungeonPage> with SingleTickerProviderStat
                       );
                     },
                     child: Image.asset(
-                      'images/enemy.png',
+                      'images/enemy2.png',
                       width: 300.0 - (remainingDays * 20),
                       height: 300.0 - (remainingDays * 20),
                       color: Colors.blueGrey.withOpacity(0.5 - (currentHP / maxHP / 2)),
@@ -343,14 +343,14 @@ class Dungeon extends StatelessWidget {
 
 class VictoryScreen extends StatelessWidget {
   final List<String> ranking = [
-    '田中健太郎',
-    '岡村穂香',
-    '大槻翼',
-    '野木知優',
-    '林まなみ',
-    '藤原拓貴',
-    '谷紘毅',
-    '太田光紀',
+    'a',
+    'b',
+    'c',
+    'd',
+    'e',
+    'f',
+    'g',
+    'h',
   ];
 
   @override
